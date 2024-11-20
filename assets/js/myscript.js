@@ -6,13 +6,14 @@ function verifierFormulaire(){
     verifierFirst_Name();
     verifierEmail();
     verifPassword();
+    verifcase();
+    
 
     function verifierName(Name){
         var Name = inputs[0];
         if (Name.value=== ''){
             Name.classList.add('is-invalid');
             Name.classList.remove('is-valid');
-            alert("Veuillez entrer un nom");
         }else{
             Name.classList.add('is-valid');
             Name.classList.remove('is-invalid');
@@ -24,7 +25,6 @@ function verifierFormulaire(){
         if (First_Name.value=== ''){
             First_Name.classList.add('is-invalid');
             First_Name.classList.remove('is-valid');
-            alert("Veuillez entrer un prénom");
         }else{
             First_Name.classList.add('is-valid');
             First_Name.classList.remove('is-invalid');
@@ -46,19 +46,31 @@ function verifierFormulaire(){
 
     function verifPassword(password){
         var password = inputs[3];
+        var erreur_message = document.querySelector(".text-danger");
         if(password.value.length<8){
             password.classList.add('is-invalid');
             password.classList.remove('is-valid');
-            alert("veuiullez entrer un mot de passe de 8 caractères minimum");
+            erreur_message.classList.remove("invisible");
+            
         }else{
             password.classList.add('is-valid');
-            password.classList.remove('is-invalid');
+            password.classList.remove("is-invalid");
+            erreur_message.classList.add("invisible");
         }
-
-
     }
-
-
+    /*
+    function verifcase(check){
+       const check = document.querySelector(".btn.btn-primary");
+       if(check.checked){
+        check.classList.add('is-valid');
+        check.classList.remove('is-invalid');
+    }else{
+        check.classList.add('is-invalid');
+        check.classList.remove('is-valid');
+    }
+       }
+       */
+    }
     
 
-}
+
