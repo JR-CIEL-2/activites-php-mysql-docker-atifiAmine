@@ -9,7 +9,7 @@ function verifierFormulaire(){
     verifcase();
     
 
-    function verifierName(Name){
+    function verifierName(){
         var Name = inputs[0];
         if (Name.value=== ''){
             Name.classList.add('is-invalid');
@@ -20,7 +20,7 @@ function verifierFormulaire(){
         }
     }
 
-    function verifierFirst_Name(First_Name){
+    function verifierFirst_Name(){
         var First_Name = inputs[1];
         if (First_Name.value=== ''){
             First_Name.classList.add('is-invalid');
@@ -32,7 +32,7 @@ function verifierFormulaire(){
     }
 
 
-    function verifierEmail(Email){
+    function verifierEmail(){
         var Email = inputs[2];
         if (Email.value.length>7 && Email.value.includes("@")){
             Email.classList.add('is-valid');
@@ -44,7 +44,7 @@ function verifierFormulaire(){
     }
         
 
-    function verifPassword(password){
+    function verifPassword(){
         var password = inputs[3];
         var erreur_message = document.querySelector(".text-danger");
         if(password.value.length<8){
@@ -58,9 +58,9 @@ function verifierFormulaire(){
             erreur_message.classList.add("invisible");
         }
     }
-    /*
-    function verifcase(check){
-       const check = document.querySelector(".btn.btn-primary");
+    
+    function verifcase(){
+       var check = document.querySelector("input[type='checkbox']");
        if(check.checked){
         check.classList.add('is-valid');
         check.classList.remove('is-invalid');
@@ -69,8 +69,10 @@ function verifierFormulaire(){
         check.classList.remove('is-valid');
     }
        }
-       */
+       
     }
+
+verifierFormulaire();
     
 
 
