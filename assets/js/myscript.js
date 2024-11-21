@@ -70,9 +70,40 @@ function verifierFormulaire(){
     }
        }
        
+const formData={
+    name : Name.value,
+    firstname : First_Name.value,
+    email : email.value,
+    password : password.value
+
+}
+
+fetch('traitement.php', {
+    method:'post',
+    body: JSON.stringify(formData),
+    headers:{
+        'Content-Type':'application/json'
+        }
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        document.getElementById("message").textContent = data.message;
+        })
+        .catch(error => console.error("Erreur:", error));
     }
 
-verifierFormulaire();
+    verifierFormulaire();
+
+  
+
+    
+
+
+    
+
+
+
+
     
 
 
