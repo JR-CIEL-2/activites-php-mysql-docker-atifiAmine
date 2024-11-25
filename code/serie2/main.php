@@ -1,12 +1,16 @@
 <?php
 include ("statistique.php");
+include("triangle.php");
 
 $notes=array(10,11,12);
 $salaires=array(1500,4500,2200,1500,3300,1800,1700,2000,4000);
 $resultat_moyenne= moyenne($notes);
-echo $resultat_moyenne;
+echo "La moyenne est de " .  $resultat_moyenne . '<br>';
 $resultat_salaire=mediane($salaires);
-echo $resultat_salaire;
+echo " Le salaire median est de " . $resultat_salaire . "euros" . '<br>';
+
+$n = ($_GET['n']);
+echo triangle($n);
 
 
 ?>

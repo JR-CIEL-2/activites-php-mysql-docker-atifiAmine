@@ -12,14 +12,16 @@ function mediane($tableau){
     sort($tableau);
     $mediane=0;
     $N=count($tableau);
-    for($i=0;$i<count($tableau);$i++){
-        if(N%2==0){
-            $mediane+=moyenne($N/2-1,$N/2);
-        }else{
-            $mediane=$N/2;
+    if($N%2==0){
+        $mediane+=moyenne([$tableau[$N / 2 - 1],$tableau[$N / 2]]);
+    }else{
+        $index = (int) ($N / 2); // Diviser N par 2 et convertir en entier
+        $mediane = $tableau[$index];
         }
+
+        return $mediane;
         
     }  
-    }
+    
 
 ?>
