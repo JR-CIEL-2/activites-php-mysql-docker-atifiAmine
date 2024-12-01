@@ -16,5 +16,17 @@
         "firstname": "jauniau",
         "email": "marc@jauniau",
         "password": "password"
+    },
+    {
+        "name": "toto2",
+        "firstname": "Toto2",
+        "email": "adreese@gmail",
+        "password": "^password"
+    },
+    {
+        "name": "toto3",
+        "firstname": "name",
+        "email": "toto3@mail",
+        "password": "password"
     }
 ]
