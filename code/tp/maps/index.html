@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Courses</title>
+    </head>
+    <body>
+        <h1>JRostand Reperes Stade</h1>
+        <hr>
+        <label for="courseSelect">Sélectionnez une course : </label>
+        <select id="courseSelect" onchange="voirCourse()">
+            <option value="">-- Choisissez une course --</option>
+        </select>
+        <div id="map" style="width: 100%; height: 500px;"></div>
+        
+        <style type="text/css">
+            #map {
+                height: 100%;
+            }
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7Y32T_PJHZxYcK3BJYJFNwSl6cuvLXpo&callback=initMap" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            let map;
+            let currentCourse = null;
+            let coursesData = [];
+            let markers = [];
+
+            // Initialiser la carte Google
+            function initMap() {
+                map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 3,
+                    center: { lat: 48.95874, lng: 2.54696 }
+                });
+                loadCourses();  // Charger les données des courses après l'initialisation de la carte
+            }
+
+            // Charger les données des courses depuis le fichier JSON
+            function loadCourses() {
+                $.ajax({
+                    url: "courses.json",  // Assurez-vous que le fichier JSON est bien accessible
+                    method: "GET",
+                    dataType: "json",
+                    success: function(courses) {
+                        coursesData = courses;
+                        const courseSelect = document.getElementById("courseSelect");
+
+                        // Pour chaque course, créer les options dans le menu déroulant
+                        for (let i = 0; i < courses.length; i++) {
+                            let option = document.createElement("option");
+                            option.value = i;  // Index comme valeur de l'option
+                            option.text = courses[i].title;  // Le titre de la course comme texte
+                            courseSelect.appendChild(option);
+                        }
+                    }
+                });
+            }
+
+            // Afficher la course sélectionnée et ses marqueurs
+            function voirCourse() {
+                const selectIndex = document.getElementById("courseSelect").value;
+                const selectedCourse = coursesData[selectIndex];
+                clearPrevious();  // Supprimer les marqueurs et polylines précédents
+                currentCourse = selectedCourse;
+                let path = [];
+
+                // Créer les marqueurs et ajouter les positions au chemin (path)
+                for (let i = 0; i < selectedCourse.markers.length; i++) {
+                    const markerData = selectedCourse.markers[i];
+                    const googleMarker = new google.maps.Marker({
+                        position: { lat: markerData.lat, lng: markerData.lng },
+                        title: selectedCourse.name,
+                        map: map
+                    });
+
+                    // Ajouter le marqueur à la liste globale
+                    markers.push(googleMarker);
+
+                    // Ajouter la position du marqueur au chemin de cette course
+                    path.push({ lat: markerData.lat, lng: markerData.lng });
+                }
+                drawPath(path);  // Dessiner la polyline sur la carte
+            }
+
+            // Supprimer les marqueurs et polylines précédents
+            function clearPrevious() {
+                // Supprimer les anciens marqueurs
+                for (let i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);  // Retirer le marqueur de la carte
+                }
+
+                markers = [];  // Vider la liste des marqueurs
+
+                // Supprimer la polyline précédente
+                if (currentCourse && currentCourse.polyline) {
+                    currentCourse.polyline.setMap(null);
+                }
+            }
+
+            // Fonction pour dessiner une polyline pour chaque course
+            function drawPath(path) {
+                const chemin = new google.maps.Polyline({
+                    path: path,  // Utiliser le tableau path pour chaque course
+                    geodesic: true,
+                    strokeColor: "#FF0000",  // Couleur de la ligne
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                });
+
+                // Ajouter la polyline à la carte pour cette course
+                chemin.setMap(map);
+
+                // Sauvegarder la polyline dans la variable currentCourse
+                currentCourse.polyline = chemin;
+            }
+        </script>
+    </body>
+</html>
